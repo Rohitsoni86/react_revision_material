@@ -2,12 +2,21 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { IoCloseSharp } from "react-icons/io5";
+import Dropdown from "./Dropdown";
+import { IoMdArrowDropdown } from "react-icons/io";
+import { IoMdArrowDropup } from "react-icons/io";
 
 export default function NavBar() {
 	const [openMenu, setOpenMenu] = useState(false);
 
 	const handleMenuToggle = () => {
 		setOpenMenu(!openMenu);
+	};
+
+	const [openDropDown, setOpenDropDown] = useState(false);
+
+	const handleDropDownToggle = () => {
+		setOpenDropDown(!openDropDown);
 	};
 
 	return (
@@ -43,26 +52,35 @@ export default function NavBar() {
 				}`}
 			>
 				<NavLink
-					className="hover:text-blue-500 md:hover:font-semibold hover:bg-white ease-in duration-500 px-5 py-1 rounded-md w-full text-white"
+					className="hover:text-blue-500  hover:bg-white ease-in duration-500 px-5 py-1 rounded-md w-full text-white"
 					to="/"
 					onClick={handleMenuToggle}
 				>
 					Home
 				</NavLink>
-				<NavLink
-					className="hover:text-blue-500 md:hover:font-semibold hover:bg-white ease-in duration-500 px-5 py-1 rounded-md w-full text-white"
-					onClick={handleMenuToggle}
+				<div 
+				onMouseEnter={handleDropDownToggle}
+					className="hover:text-blue-500 hover:cursor-pointer  hover:bg-white ease-in duration-500 px-5 py-1 rounded-md w-full text-white flex gap-1"
+					onClick={handleDropDownToggle}
 				>
-					Learn
-				</NavLink>
+					<span>Learn</span>
+					<span>
+						{openDropDown ? (
+							<IoMdArrowDropup fontSize={30} />
+						) : (
+							<IoMdArrowDropdown fontSize={30} />
+						)}
+					</span>
+				</div>
 
 				<NavLink
 					to="/about"
 					onClick={handleMenuToggle}
-					className="hover:text-blue-500 md:hover:font-semibold hover:bg-white ease-in duration-500 px-5 py-1 rounded-md w-full text-white"
+					className="hover:text-blue-500  hover:bg-white ease-in duration-500 px-5 py-1 rounded-md w-full text-white"
 				>
 					About
 				</NavLink>
+				{openDropDown && <Dropdown handleDropDownToggle={handleDropDownToggle} handleMenuToggle={handleMenuToggle} />}
 			</div>
 		</nav>
 	);
